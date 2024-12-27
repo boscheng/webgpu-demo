@@ -1,7 +1,10 @@
-import { clearColor, shaders, vertices } from "./const";
+import { clearColor, shaders, vertices, gridVertices } from "./const";
 import { mat4 } from "gl-matrix";
 
-export async function initWebGPU(canvas: HTMLCanvasElement) {
+export async function initWebGPU(
+  canvas: HTMLCanvasElement,
+  rotationRef: React.MutableRefObject<{ x: number; y: number }>
+) {
   const context = canvas.getContext("webgpu");
   const adapter = await navigator.gpu.requestAdapter();
 
@@ -111,6 +114,54 @@ export async function initWebGPU(canvas: HTMLCanvasElement) {
     usage: GPUTextureUsage.RENDER_ATTACHMENT,
   });
 
+  // Create grid vertex buffer
+  const gridBuffer = device.createBuffer({
+    size: gridVertices.byteLength,
+    usage: GPUBufferUsage.VERTEX | GPUBufferUsage.COPY_DST,
+  });
+  device.queue.writeBuffer(gridBuffer, 0, gridVertices);
+
+  // Create a second pipeline for the grid lines
+  const gridPipeline = device.createRenderPipeline({
+    layout: pipelineLayout,
+    vertex: {
+      module: shaderModule,
+      entryPoint: "vertex_main",
+      buffers: [
+        {
+          attributes: [
+            {
+              shaderLocation: 0,
+              offset: 0,
+              format: "float32x4",
+            },
+            {
+              shaderLocation: 1,
+              offset: 16,
+              format: "float32x4",
+            },
+          ],
+          arrayStride: 32,
+          stepMode: "vertex",
+        },
+      ],
+    },
+    fragment: {
+      module: shaderModule,
+      entryPoint: "fragment_main",
+      targets: [{ format: navigator.gpu.getPreferredCanvasFormat() }],
+    },
+    primitive: {
+      topology: "line-list",
+      cullMode: "none",
+    },
+    depthStencil: {
+      depthWriteEnabled: true,
+      depthCompare: "less",
+      format: "depth24plus",
+    },
+  });
+
   function render() {
     // Update transformation matrix
     const modelViewProjection = mat4.create();
@@ -121,13 +172,24 @@ export async function initWebGPU(canvas: HTMLCanvasElement) {
       0.1,
       100.0
     );
-    const view = mat4.lookAt(mat4.create(), [0, 1, 4], [0, 0, 0], [0, 1, 0]);
+
+    const view = mat4.lookAt(mat4.create(), [0, 3, 6], [0, 0, 0], [0, 1, 0]);
 
     mat4.multiply(modelViewProjection, projection, view);
 
-    // Rotate the pyramid
-    const now = Date.now() / 1000;
-    mat4.rotate(modelViewProjection, modelViewProjection, now, [0, 1, 0]);
+    // Apply mouse rotation
+    mat4.rotate(
+      modelViewProjection,
+      modelViewProjection,
+      rotationRef.current.x,
+      [1, 0, 0]
+    );
+    mat4.rotate(
+      modelViewProjection,
+      modelViewProjection,
+      rotationRef.current.y,
+      [0, 1, 0]
+    );
 
     device.queue.writeBuffer(
       uniformBuffer,
@@ -154,10 +216,19 @@ export async function initWebGPU(canvas: HTMLCanvasElement) {
     };
 
     const passEncoder = commandEncoder.beginRenderPass(renderPassDescriptor);
+
+    // Draw grid
+    passEncoder.setPipeline(gridPipeline);
+    passEncoder.setBindGroup(0, bindGroup);
+    passEncoder.setVertexBuffer(0, gridBuffer);
+    passEncoder.draw(gridVertices.length / 8, 1, 0, 0);
+
+    // Draw pyramid
     passEncoder.setPipeline(pipeline);
     passEncoder.setBindGroup(0, bindGroup);
     passEncoder.setVertexBuffer(0, vertexBuffer);
-    passEncoder.draw(12, 1, 0, 0); // 4 triangles * 3 vertices
+    passEncoder.draw(12, 1, 0, 0);
+
     passEncoder.end();
 
     device.queue.submit([commandEncoder.finish()]);

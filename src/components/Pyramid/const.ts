@@ -107,6 +107,27 @@ export const vertices = new Float32Array([
   1.0, // bottom right
 ]);
 
+// Add grid vertices (lines for the floor)
+export const gridVertices = (() => {
+  const size = 10; // Grid size
+  const divisions = 20; // Number of divisions
+  const step = size / divisions;
+  const vertices = [];
+
+  // Create grid lines
+  for (let i = -size / 2; i <= size / 2; i += step) {
+    // Vertical lines
+    vertices.push(i, -0.5, -size / 2, 1.0, 0.5, 0.5, 0.5, 1.0); // Start point
+    vertices.push(i, -0.5, size / 2, 1.0, 0.5, 0.5, 0.5, 1.0); // End point
+
+    // Horizontal lines
+    vertices.push(-size / 2, -0.5, i, 1.0, 0.5, 0.5, 0.5, 1.0); // Start point
+    vertices.push(size / 2, -0.5, i, 1.0, 0.5, 0.5, 0.5, 1.0); // End point
+  }
+
+  return new Float32Array(vertices);
+})();
+
 export const shaders = `
   struct Uniforms {
     modelViewProjection: mat4x4f,
