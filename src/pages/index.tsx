@@ -4,13 +4,13 @@ const demos = [
     id: "Triangle",
     title: "Triangle",
     description: "Description for Demo Triangle",
-    image: "/demo/triangle.png",
+    image: "/demo/Triangle.png",
   },
   {
     id: "Pyramid",
     title: "Pyramid",
     description: "Description for Demo Pyramid",
-    image: "/demo/triangle.png",
+    image: "/demo/Pyramid.gif",
   },
   {
     id: "demo2",
