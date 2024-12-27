@@ -1,9 +1,12 @@
 import { useRouter } from "next/router";
 import Sidebar from "@/components/Sidebar";
-import RadarScan from "@/components/RadarScan";
+// import RadarScan from "@/components/RadarScan";
+import Triangle from "@/components/Triangle";
+import Pyramid from "@/components/Pyramid";
 
 const demos = [
-  { id: "demo1", title: "Demo 1", content: <RadarScan /> },
+  { id: "Triangle", title: "Triangle", content: <Triangle /> },
+  { id: "Pyramid", title: "Pyramid", content: <Pyramid /> },
   { id: "demo2", title: "Demo 2", content: "Detailed content for Demo 2" },
 ];
 

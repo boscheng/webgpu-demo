@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 
 export default function DemoCard({
   demo,
@@ -8,10 +9,12 @@ export default function DemoCard({
   return (
     <Link href={`/demo/${demo.id}`}>
       <div className="border rounded p-4 hover:shadow-md">
-        <img
+        <Image
           src={demo.image}
           alt={demo.title}
-          className="w-full h-40 object-cover"
+          width={500}
+          height={300}
+          className="w-full h-60 object-cover"
         />
         <h2 className="text-xl font-bold mt-2">{demo.title}</h2>
         <p className="text-gray-600">{demo.description}</p>

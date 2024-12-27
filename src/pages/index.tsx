@@ -1,10 +1,16 @@
 import DemoCard from "@/components/DemoCard";
 const demos = [
   {
-    id: "demo1",
-    title: "Demo 1",
-    description: "Description for Demo 1",
-    image: "/demo/demo1.gif",
+    id: "Triangle",
+    title: "Triangle",
+    description: "Description for Demo Triangle",
+    image: "/demo/triangle.png",
+  },
+  {
+    id: "Pyramid",
+    title: "Pyramid",
+    description: "Description for Demo Pyramid",
+    image: "/demo/triangle.png",
   },
   {
     id: "demo2",
