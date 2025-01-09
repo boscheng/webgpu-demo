@@ -4,7 +4,7 @@ const demos = [
     id: "Triangle",
     title: "Triangle",
     description: "Description for Demo Triangle",
-    image: "/demo/Triangle.png",
+    image: "/demo/triangle.png",
   },
   {
     id: "Pyramid",

@@ -198,41 +198,43 @@ export async function initWebGPU(
     );
 
     const commandEncoder = device.createCommandEncoder();
-    const renderPassDescriptor: GPURenderPassDescriptor = {
-      colorAttachments: [
-        {
-          view: context.getCurrentTexture().createView(),
-          clearValue: clearColor,
-          loadOp: "clear",
-          storeOp: "store",
+    if(context) {
+      const renderPassDescriptor: GPURenderPassDescriptor = {
+        colorAttachments: [
+          {
+            view: context.getCurrentTexture().createView(),
+            clearValue: clearColor,
+            loadOp: "clear",
+            storeOp: "store",
+          },
+        ],
+        depthStencilAttachment: {
+          view: depthTexture.createView(),
+          depthClearValue: 1.0,
+          depthLoadOp: "clear",
+          depthStoreOp: "store",
         },
-      ],
-      depthStencilAttachment: {
-        view: depthTexture.createView(),
-        depthClearValue: 1.0,
-        depthLoadOp: "clear",
-        depthStoreOp: "store",
-      },
-    };
-
-    const passEncoder = commandEncoder.beginRenderPass(renderPassDescriptor);
-
-    // Draw grid
-    passEncoder.setPipeline(gridPipeline);
-    passEncoder.setBindGroup(0, bindGroup);
-    passEncoder.setVertexBuffer(0, gridBuffer);
-    passEncoder.draw(gridVertices.length / 8, 1, 0, 0);
-
-    // Draw pyramid
-    passEncoder.setPipeline(pipeline);
-    passEncoder.setBindGroup(0, bindGroup);
-    passEncoder.setVertexBuffer(0, vertexBuffer);
-    passEncoder.draw(12, 1, 0, 0);
-
-    passEncoder.end();
-
-    device.queue.submit([commandEncoder.finish()]);
-    requestAnimationFrame(render);
+      };
+  
+      const passEncoder = commandEncoder.beginRenderPass(renderPassDescriptor);
+  
+      // Draw grid
+      passEncoder.setPipeline(gridPipeline);
+      passEncoder.setBindGroup(0, bindGroup);
+      passEncoder.setVertexBuffer(0, gridBuffer);
+      passEncoder.draw(gridVertices.length / 8, 1, 0, 0);
+  
+      // Draw pyramid
+      passEncoder.setPipeline(pipeline);
+      passEncoder.setBindGroup(0, bindGroup);
+      passEncoder.setVertexBuffer(0, vertexBuffer);
+      passEncoder.draw(12, 1, 0, 0);
+  
+      passEncoder.end();
+  
+      device.queue.submit([commandEncoder.finish()]);
+      requestAnimationFrame(render);
+    }
   }
 
   requestAnimationFrame(render);

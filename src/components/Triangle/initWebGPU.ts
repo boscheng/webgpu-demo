@@ -74,7 +74,7 @@ export async function initWebGPU(canvas: HTMLCanvasElement) {
     layout: "auto",
   };
   // 创建渲染管线
-  const renderPipeline = device.createRenderPipeline(pipelineDescriptor);
+  const renderPipeline = device.createRenderPipeline(pipelineDescriptor as GPURenderPipelineDescriptor);
   // 创建命令编码器
   const commandEncoder = device.createCommandEncoder();
   // 创建渲染通道描述符
@@ -89,7 +89,7 @@ export async function initWebGPU(canvas: HTMLCanvasElement) {
     ],
   };
   // 开始渲染通道
-  const passEncoder = commandEncoder.beginRenderPass(renderPassDescriptor);
+  const passEncoder = commandEncoder.beginRenderPass(renderPassDescriptor as GPURenderPassDescriptor);
   // 设置渲染管线
   passEncoder.setPipeline(renderPipeline);
   // 设置顶点缓冲区
