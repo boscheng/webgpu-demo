@@ -1,4 +1,5 @@
 import { createGPUBuffer, runComputeShader } from "./utils";
+import convolution from "./shaders/convolution.wgsl";
 export async function main() {
   // 请求GPU适配器
   const adapter = await navigator.gpu.requestAdapter();
@@ -39,7 +40,7 @@ export async function main() {
 
   // 加载卷积计算着色器
   const shaderModule = device.createShaderModule({
-    code: await fetch("./shaders/convolution.wgsl").then((res) => res.text()),
+    code: convolution,
   });
 
   // 配置计算管线

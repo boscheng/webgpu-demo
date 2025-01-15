@@ -1,3 +1,4 @@
+const convolution = `
 @group(0) @binding(0) var<storage, read> inputImage: array<f32>;
 @group(0) @binding(1) var<storage, read> kernel: array<f32>;
 @group(0) @binding(2) var<storage, read_write> outputImage: array<f32>;
@@ -23,4 +24,5 @@ fn main(@builtin(global_invocation_id) global_id: vec3<u32>) {
         let outputIndex = y * (width - kernelSize + 1) + x;
         outputImage[outputIndex] = sum + bias;
     }
-}
+}`;
+export default convolution;

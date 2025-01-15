@@ -1,3 +1,4 @@
+const pooling = `
 @group(0) @binding(0) var<storage, read> inputImage: array<f32>;
 @group(0) @binding(1) var<storage, read_write> outputImage: array<f32>;
 
@@ -22,3 +23,5 @@ fn main(@builtin(global_invocation_id) global_id: vec3<u32>) {
         outputImage[outputIndex] = maxVal;
     }
 }
+`;
+export default pooling;
