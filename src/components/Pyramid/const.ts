@@ -1,4 +1,4 @@
-export const clearColor = { r: 0.0, g: 0.5, b: 1.0, a: 1.0 };
+export const clearColor = { r: 0.0, g: 0.0, b: 0.0, a: 1.0 };
 
 // Define vertices for a pyramid (4 triangles: 3 sides + base)
 export const vertices = new Float32Array([

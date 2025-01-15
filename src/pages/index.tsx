@@ -18,6 +18,12 @@ const demos = [
     description: "Description for Demo 2",
     image: "/demo/demo2.gif",
   },
+  {
+    id: "cnn",
+    title: "WebGPU CNN Test",
+    description: "WebGPU CNN Test",
+    image: "/demo/cnn.png",
+  },
 ];
 
 export default function Home() {
