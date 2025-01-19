@@ -13,9 +13,9 @@ const demos = [
     image: "/demo/Pyramid.gif",
   },
   {
-    id: "demo2",
-    title: "Demo 2",
-    description: "Description for Demo 2",
+    id: "RadarScan",
+    title: "RadarScan",
+    description: "Description for RadarScan",
     image: "/demo/demo2.gif",
   },
   {

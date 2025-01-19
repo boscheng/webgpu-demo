@@ -9,8 +9,13 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@react-three/drei": "^9.117.2",
+    "@react-three/fiber": "^8.17.10",
+    "@babylonjs/core": "^7.44.0",
+    "@babylonjs/loaders": "^7.44.0",
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.0",
+    "@gltf-transform/core": "^4.1.1",
     "@mui/material": "^6.2.0",
     "cesium": "^1.124.0",
     "gl-matrix": "^3.4.3",

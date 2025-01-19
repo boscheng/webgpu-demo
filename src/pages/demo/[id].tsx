@@ -4,11 +4,12 @@ import Sidebar from "@/components/Sidebar";
 import Triangle from "@/components/Triangle";
 import Pyramid from "@/components/Pyramid";
 import CNN from "@/components/CNN";
+import RadarScan from "@/components/RadarScan";
 
 const demos = [
   { id: "Triangle", title: "Triangle", content: <Triangle /> },
   { id: "Pyramid", title: "Pyramid", content: <Pyramid /> },
-  { id: "demo2", title: "Demo 2", content: "Detailed content for Demo 2" },
+  { id: "RadarScan", title: "RadarScan", content: <RadarScan /> },
   { id: "cnn", title: "WebGPU CNN Test", content: <CNN /> },
 ];
 
